@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculadora Comercial de Peletização</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-frame">
+      <aside class="nav-sidebar" aria-label="Menu principal">
+        <div class="brand">
+          <img src="logo_safeeds_horizontal.svg" alt="Safeeds" />
+        </div>
+
+        <nav class="tabs" aria-label="Abas">
+          <button class="tab is-active" data-tab="resultado">
+            <span aria-hidden="true">▦</span>
+            Resultado
+          </button>
+          <button class="tab" data-tab="entrada">
+            <span aria-hidden="true">✎</span>
+            Entrada
+          </button>
+          <button class="tab" data-tab="premissas">
+            <span aria-hidden="true">i</span>
+            Premissas
+          </button>
+        </nav>
+
+        <div class="sidebar-section">
+          <p class="side-label">Simulações</p>
+          <button class="side-action" id="newButton">+ Nova simulação</button>
+          <div id="simulationList" class="simulation-list"></div>
+        </div>
+
+        <button class="docs-button" id="resetButton">Restaurar exemplo</button>
+      </aside>
+
+      <div class="main-area">
+        <header class="app-header">
+          <div>
+            <p class="eyebrow">Simulador comercial</p>
+            <h1>Calculadora de Benefícios da Peletização</h1>
+          </div>
+          <button class="primary-button" id="saveButton">Salvar simulação</button>
+        </header>
+
+        <main class="app-shell">
+          <section class="tab-panel is-active" id="tab-resultado">
+            <section class="summary-panel" aria-label="Resumo comercial">
+              <div class="summary-copy">
+                <p class="eyebrow">Resumo comercial</p>
+                <h2 id="summaryTitle">Controle vs H+A</h2>
+                <p id="summaryText"></p>
+              </div>
+              <div class="kpi-grid">
+                <article class="kpi kpi-forest">
+                  <span>Peletes no comedouro</span>
+                  <strong id="kpiFeederPellets">0%</strong>
+                  <small id="kpiFeederPelletsHint">a mais no comedouro</small>
+                </article>
+                <article class="kpi kpi-leaf">
+                  <span>Toneladas por umidade</span>
+                  <strong id="kpiMoisture">0 Ton</strong>
+                  <small id="kpiMoistureHint">Ton a mais</small>
+                </article>
+                <article class="kpi kpi-green">
+                  <span>Redução de finos</span>
+                  <strong id="kpiFines">0%</strong>
+                  <small>a menos de finos</small>
+                </article>
+                <article class="kpi kpi-mint">
+                  <span>CA estimado</span>
+                  <strong id="kpiFeedConversion">0</strong>
+                </article>
+              </div>
+            </section>
+
+            <div class="result-grid">
+              <article class="result-card">
+                <h3>Comparativo operacional</h3>
+                <div id="comparisonRows" class="comparison-rows"></div>
+              </article>
+              <article class="result-card">
+                <h3>Impacto visual</h3>
+                <canvas id="comparisonChart" width="760" height="360" aria-label="Grafico comparativo"></canvas>
+              </article>
+            </div>
+          </section>
+
+          <section class="tab-panel" id="tab-entrada">
+            <div class="form-toolbar">
+              <label>
+                Cliente
+                <input id="clientName" type="text" autocomplete="off" />
+              </label>
+              <label>
+                Consultor
+                <input id="consultantName" type="text" autocomplete="off" />
+              </label>
+            </div>
+
+            <div class="scenario-grid">
+              <article class="scenario">
+                <h3>Controle</h3>
+                <div class="field-grid" data-scenario="control"></div>
+              </article>
+              <article class="scenario">
+                <h3>H+A</h3>
+                <div class="field-grid" data-scenario="ha"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="tab-panel" id="tab-premissas">
+            <div class="premise-grid">
+              <article class="result-card">
+                <h3>Curva CA x PDI</h3>
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>PDI / peletes (%)</th>
+                      <th>CA</th>
+                      <th>Referência</th>
+                    </tr>
+                  </thead>
+                  <tbody id="curveTable"></tbody>
+                </table>
+              </article>
+              <article class="result-card">
+                <h3>Glossário comercial</h3>
+                <dl class="glossary">
+                  <dt>PDI</dt>
+                  <dd>Índice de durabilidade do pelete. Quanto maior, menos quebra e menos finos.</dd>
+                  <dt>CA</dt>
+                  <dd>Conversão alimentar. Mede kg de ração por kg de ganho de peso. Quanto menor, melhor.</dd>
+                  <dt>Finos</dt>
+                  <dd>Parte quebrada/farelada da ração peletizada.</dd>
+                  <dt>Densidade</dt>
+                  <dd>Massa por volume da ração, expressa em kg/m³.</dd>
+                </dl>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
