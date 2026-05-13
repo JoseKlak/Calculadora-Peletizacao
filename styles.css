@@ -30,6 +30,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
+  font-weight: 400;
 }
 
 button,
@@ -42,18 +43,21 @@ button {
 }
 
 .app-frame {
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
   min-height: 100vh;
 }
 
 .nav-sidebar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  z-index: 20;
   display: flex;
   flex-direction: column;
+  width: 260px;
+  height: 100vh;
   min-height: 100vh;
   padding: 22px 16px;
+  overflow-y: auto;
   background: var(--sidebar);
   color: #f7f8ff;
 }
@@ -90,7 +94,7 @@ button {
   background: transparent;
   color: #b7b8ca;
   text-align: left;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .tab span {
@@ -110,7 +114,7 @@ button {
   margin: 0 0 10px;
   color: #696b8d;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 1.2px;
   text-transform: uppercase;
 }
@@ -121,7 +125,7 @@ button {
   border: 0;
   border-radius: 6px;
   min-height: 42px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .side-action {
@@ -136,10 +140,12 @@ button {
 }
 
 .simulation-item {
+  position: relative;
+  display: block;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 6px;
-  padding: 11px;
+  padding: 11px 34px 11px 11px;
   background: #252539;
   color: #f7f8ff;
   text-align: left;
@@ -153,6 +159,40 @@ button {
 .simulation-item strong,
 .simulation-item span {
   display: block;
+}
+
+.simulation-text {
+  min-width: 0;
+}
+
+.delete-simulation {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  color: #b7b8ca;
+  cursor: pointer;
+}
+
+.delete-simulation svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.delete-simulation:hover {
+  background: transparent;
+  color: white;
+}
+
+.simulation-item strong {
+  font-weight: 600;
 }
 
 .simulation-item span {
@@ -169,6 +209,7 @@ button {
 
 .main-area {
   min-width: 0;
+  margin-left: 260px;
 }
 
 .app-header {
@@ -186,7 +227,7 @@ button {
   margin: 0 0 5px;
   color: var(--safe-green);
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -201,14 +242,17 @@ p {
 h1 {
   margin-bottom: 0;
   font-size: 24px;
+  font-weight: 700;
 }
 
 h2 {
   font-size: 22px;
+  font-weight: 700;
 }
 
 h3 {
   font-size: 18px;
+  font-weight: 600;
 }
 
 .primary-button {
@@ -218,7 +262,7 @@ h3 {
   padding: 0 18px;
   background: var(--safe-green);
   color: white;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .app-shell {
@@ -272,7 +316,7 @@ h3 {
   min-height: 42px;
   color: var(--muted);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .kpi strong {
@@ -287,7 +331,7 @@ h3 {
   margin-top: 6px;
   color: var(--green-700);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .kpi-forest {
@@ -342,7 +386,11 @@ label {
   gap: 6px;
   color: var(--muted);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 500;
+}
+
+input {
+  font-weight: 500;
 }
 
 input {
@@ -372,10 +420,31 @@ input:focus {
   padding: 22px;
 }
 
+.result-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.energy-form {
+  margin-bottom: 22px;
+}
+
 .field-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.energy-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.energy-grid .factory-line-one {
+  grid-column: span 3;
+}
+
+.energy-grid .factory-line-two {
+  grid-column: span 3;
 }
 
 .comparison-rows {
@@ -398,8 +467,12 @@ input:focus {
 .comparison-row .loss {
   border-radius: 999px;
   padding: 6px 8px;
-  font-weight: 900;
+  font-weight: 700;
   text-align: center;
+}
+
+.comparison-row strong {
+  font-weight: 600;
 }
 
 .comparison-row .gain {
@@ -412,12 +485,62 @@ input:focus {
   color: var(--neutral-strong);
 }
 
-canvas {
+.chart-surface {
   width: 100%;
-  min-height: 280px;
+  height: 280px;
+  min-height: 0;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: white;
+  overflow: hidden;
+}
+
+.chart-surface svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chart-surface text {
+  font-family: Aptos, Segoe UI, Arial, sans-serif;
+  shape-rendering: geometricPrecision;
+}
+
+.chart-surface.compact-chart {
+  height: 260px;
+}
+
+#comparisonChart {
+  flex: 1;
+  min-height: 390px;
+}
+
+.chart-tooltip {
+  position: fixed;
+  z-index: 30;
+  display: none;
+  min-width: 180px;
+  max-width: 260px;
+  border: 1px solid rgba(35, 134, 59, 0.28);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: white;
+  box-shadow: 0 16px 34px rgba(13, 20, 39, 0.16);
+  color: var(--ink);
+  pointer-events: none;
+}
+
+.chart-tooltip strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--green-700);
+  font-size: 13px;
+}
+
+.chart-tooltip span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .data-table {
@@ -444,7 +567,7 @@ canvas {
 }
 
 .glossary dt {
-  font-weight: 900;
+  font-weight: 700;
   color: var(--safe-green-dark);
 }
 
@@ -455,12 +578,18 @@ canvas {
 
 @media (max-width: 1080px) {
   .app-frame {
-    grid-template-columns: 1fr;
+    display: block;
   }
 
   .nav-sidebar {
     position: static;
+    width: auto;
+    height: auto;
     min-height: auto;
+  }
+
+  .main-area {
+    margin-left: 0;
   }
 
   .tabs {
@@ -470,7 +599,8 @@ canvas {
   .summary-panel,
   .scenario-grid,
   .result-grid,
-  .premise-grid {
+  .premise-grid,
+  .energy-grid {
     grid-template-columns: 1fr;
   }
 
@@ -492,7 +622,8 @@ canvas {
 
   .kpi-grid,
   .form-toolbar,
-  .field-grid {
+  .field-grid,
+  .energy-grid {
     grid-template-columns: 1fr;
   }
 

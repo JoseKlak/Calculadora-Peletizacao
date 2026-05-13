@@ -43,7 +43,6 @@
             <p class="eyebrow">Simulador comercial</p>
             <h1>Calculadora de Benefícios da Peletização</h1>
           </div>
-          <button class="primary-button" id="saveButton">Salvar simulação</button>
         </header>
 
         <main class="app-shell">
@@ -55,24 +54,24 @@
                 <p id="summaryText"></p>
               </div>
               <div class="kpi-grid">
-                <article class="kpi kpi-forest">
-                  <span>Peletes no comedouro</span>
-                  <strong id="kpiFeederPellets">0%</strong>
-                  <small id="kpiFeederPelletsHint">a mais no comedouro</small>
+                <article class="kpi kpi-mint">
+                  <span>Economia anual de energia</span>
+                  <strong id="kpiEnergySavings">R$ 0,00</strong>
                 </article>
                 <article class="kpi kpi-leaf">
-                  <span>Toneladas por umidade</span>
+                  <span>Produção anual</span>
                   <strong id="kpiMoisture">0 Ton</strong>
-                  <small id="kpiMoistureHint">Ton a mais</small>
+                  <small id="kpiMoistureHint">Ton a mais por ano</small>
                 </article>
                 <article class="kpi kpi-green">
                   <span>Redução de finos</span>
                   <strong id="kpiFines">0%</strong>
                   <small>a menos de finos</small>
                 </article>
-                <article class="kpi kpi-mint">
-                  <span>CA estimado</span>
-                  <strong id="kpiFeedConversion">0</strong>
+                <article class="kpi kpi-forest">
+                  <span>Peletes no comedouro</span>
+                  <strong id="kpiFeederPellets">0%</strong>
+                  <small id="kpiFeederPelletsHint">a mais no comedouro</small>
                 </article>
               </div>
             </section>
@@ -84,7 +83,15 @@
               </article>
               <article class="result-card">
                 <h3>Impacto visual</h3>
-                <canvas id="comparisonChart" width="760" height="360" aria-label="Grafico comparativo"></canvas>
+                <div class="chart-surface compact-chart" id="comparisonChart" aria-label="Gráfico comparativo"></div>
+              </article>
+              <article class="result-card">
+                <h3>Custo anual de energia</h3>
+                <div class="chart-surface compact-chart" id="energyChart" aria-label="Gráfico de custo anual de energia"></div>
+              </article>
+              <article class="result-card">
+                <h3>Produção anual</h3>
+                <div class="chart-surface compact-chart" id="productionChart" aria-label="Gráfico de produção anual"></div>
               </article>
             </div>
           </section>
@@ -100,6 +107,11 @@
                 <input id="consultantName" type="text" autocomplete="off" />
               </label>
             </div>
+
+            <article class="scenario energy-form">
+              <h3>Dados da fábrica</h3>
+              <div class="field-grid energy-grid" id="energyFields"></div>
+            </article>
 
             <div class="scenario-grid">
               <article class="scenario">
@@ -139,6 +151,12 @@
                   <dd>Parte quebrada/farelada da ração peletizada.</dd>
                   <dt>Densidade</dt>
                   <dd>Massa por volume da ração, expressa em kg/m³.</dd>
+                  <dt>Energia</dt>
+                  <dd>Compara o custo anual estimado a partir da corrente, tensão, custo do kWh e jornada de trabalho. O cálculo usa motor trifásico: kW = √3 x tensão x corrente / 1000.</dd>
+                  <dt>Economia de energia</dt>
+                  <dd>Calculada pela diferença entre o custo anual do Controle e o custo anual do H+A. Primeiro calcula-se kW do motor trifásico para cada cenário: kW Controle = √3 x tensão x corrente Controle / 1000; kW H+A = √3 x tensão x corrente H+A / 1000. Depois custo anual = kW x custo kWh x horas/dia x dias/mês x 12. Fórmula final: economia = custo anual Controle - custo anual H+A.</dd>
+                  <dt>Ganho de produtividade</dt>
+                  <dd>Compara a produção anual do Controle e do H+A usando produtividade Ton/h e jornada da fábrica. Fórmula: produção anual = produtividade Ton/h x horas/dia x dias/mês x 12. Ganho = produção anual H+A - produção anual Controle.</dd>
                 </dl>
               </article>
             </div>
@@ -147,6 +165,7 @@
       </div>
     </div>
 
+    <div id="chartTooltip" class="chart-tooltip" role="status" aria-live="polite"></div>
     <script src="app.js"></script>
   </body>
 </html>
