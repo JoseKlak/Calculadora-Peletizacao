@@ -11,7 +11,7 @@ const fields = [
 ];
 
 const energyFields = [
-  ["voltage", "Tensão de trabalho (V)", "number", 1],
+  ["voltage", "Tensão de trabalho da Peletizadora (V)", "number", 1],
   ["kwhCost", "Custo kWh (R$)", "number", 0.01],
   ["hoursPerDay", "Jornada de trabalho (h/dia)", "number", 0.5],
   ["daysPerMonth", "Jornada de trabalho (dias/mês)", "number", 1],
